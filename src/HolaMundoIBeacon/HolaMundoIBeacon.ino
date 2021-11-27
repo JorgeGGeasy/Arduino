@@ -109,7 +109,7 @@ void loop () {
 
 
   lucecitas();
-
+/*
   // mido y publico
   int valorCO2 = elMedidor.medirCO2();
 
@@ -127,11 +127,40 @@ void loop () {
 									cont,
 									1000 // intervalo de emisión
 									);
- 
+*/
+
+int16_t valorCO = random(-30, -10);
+int16_t valorCO2 = random(10, 30);
+int16_t valorO3 = random(15, 70);
+int16_t valorTemperatura = random(0, 15);
+
+  elPuerto.escribir( "\n---- Valor CO " );
+  elPuerto.escribir( valorCO );
+  elPuerto.escribir( "\n" );
+  elPuerto.escribir( "\n---- Valor CO2 " );
+  elPuerto.escribir( valorCO2 );
+  elPuerto.escribir( "\n" );
+  elPuerto.escribir( "\n---- Valor O3 " );
+  elPuerto.escribir( valorO3 );
+  elPuerto.escribir( "\n" );
+  elPuerto.escribir( "\n---- Valor Temperatura " );
+  elPuerto.escribir( valorTemperatura );
+  elPuerto.escribir( "\n" );
+/*
+int16_t valorCO = -20;
+int16_t valorCO2 = 40;
+int16_t valorO3 = 15;
+int16_t valorTemperatura = 55;
+*/
+  elPublicador.publicarCOYCO2(valorCO, valorCO2, 1000);
+
+  elPublicador.publicarO3YTemperatura(valorO3, valorTemperatura, 1000);
+
+         
   // prueba para emitir un iBeacon y poner
   // en la carga (21 bytes = uuid 16 major 2 minor 2 txPower 1 )
   // lo que queramos (sin seguir dicho formato)
-  
+  /*
   char datos[21] = {
 	'H', 'o', 'l', 'a',
 	'H', 'o', 'l', 'a',
@@ -140,9 +169,9 @@ void loop () {
 	'H', 'o', 'l', 'a',
 	'H'
   };
-
+  */
   // elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( &datos[0], 21 )
-  elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( "MolaMolaMolaMolaMolaM", 21 );
+  //elPublicador.laEmisora.emitirAnuncioIBeaconLibre ( "MolaMolaMolaMolaMolaM", 21 );
 
   esperar( 2000 );
 

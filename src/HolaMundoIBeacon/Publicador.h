@@ -16,10 +16,14 @@ class Publicador {
   // ............................................................
 private:
 
-  uint8_t beaconUUID[16] = { 
-	'E', 'P', 'S', 'G', '-', 'G', 'T', 'I', 
-	'-', 'P', 'R', 'O', 'Y', '-', '3', 'A'
+  uint8_t beaconUUID1[16] = { 
+	'-', 'E', 'P', 'S', 'G', '-', 'G', 'T', 
+	'I', 'C', 'O', 'Y', 'C', 'O', '2', '-' 
 	};
+  uint8_t beaconUUID2[16] = { 
+  'E', 'P', 'S', 'G', '-', 'G', 'T', 'I', 
+  'O', '3', 'Y', 'T', 'E', 'M', 'P', '-'
+  };
 
   // ............................................................
   // ............................................................
@@ -65,8 +69,8 @@ public:
 					long tiempoEspera ) {
 
 	// 1. empezamos anuncio
-	uint16_t major = (MedicionesID::CO2 << 8) + contador;
-	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 
+	uint16_t major = 2;
+	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID1, 
 											major,
 											valorCO2, // minor
 											(*this).RSSI // rssi
@@ -84,9 +88,9 @@ public:
   // ............................................................
   void publicarTemperatura( int16_t valorTemperatura,
 							uint8_t contador, long tiempoEspera ) {
-
-	uint16_t major = (MedicionesID::TEMPERATURA << 8) + contador;
-	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID, 
+  Serial.print(valorTemperatura + "Temperatura");
+	uint16_t major = 1;
+	(*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID1, 
 											major,
 											valorTemperatura, // minor
 											(*this).RSSI // rssi
@@ -95,7 +99,54 @@ public:
 
 	(*this).laEmisora.detenerAnuncio();
   } // ()
-	
+
+  // ............................................................
+  // valorCO: N, valorCO2: N, tiempoEspera: N-> publicarCOYCO2 ->
+  // ............................................................
+
+void publicarCOYCO2( int16_t valorCO,
+      int16_t valorCO2, long tiempoEspera ) {
+        
+  // Definimos el major
+  uint16_t major = valorCO;
+  
+  // Definimos el minor
+  uint16_t minor = valorCO2;
+  
+  (*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID1, 
+                      major,
+                      minor, // minor
+                      (*this).RSSI // rssi
+                  );
+  esperar( tiempoEspera );
+
+  (*this).laEmisora.detenerAnuncio();
+  } // ()
+
+  // ............................................................
+  // valorO3: N,valorTemperatura: N, tiempoEspera: N-> publicarO3YTemperatura ->
+  // ............................................................
+  
+void publicarO3YTemperatura( int16_t valorO3,
+  
+  int16_t valorTemperatura, long tiempoEspera ) {
+        
+  // Definimos el major
+  uint16_t major = valorO3;
+  
+  // Definimos el minor
+  uint16_t minor = valorTemperatura;
+  
+  (*this).laEmisora.emitirAnuncioIBeacon( (*this).beaconUUID2, 
+                      major,
+                      minor, // minor
+                      (*this).RSSI // rssi
+                  );
+  esperar( tiempoEspera );
+
+  (*this).laEmisora.detenerAnuncio();
+  } // ()
+  
 }; // class
 
 // --------------------------------------------------------------

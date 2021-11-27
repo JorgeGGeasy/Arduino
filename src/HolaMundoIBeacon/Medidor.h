@@ -1,4 +1,4 @@
-// -*- mode: c++ -*-
+  // -*- mode: c++ -*-
 
 // Nombre fichero: Medidor.h
 // Fecha: 17/10/2021
